@@ -1,0 +1,12 @@
+.page {
+  display: flex;
+  align-items: flex-start;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 48px 63px 64px;
+  gap: 64px;
+}
+
+.content {
+  flex: 1;
+}

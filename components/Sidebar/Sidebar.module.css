@@ -1,0 +1,133 @@
+.sidebarWrapper {
+  padding: 63px 48px;
+}
+
+.sidebar {
+  width: 360px;
+  flex-shrink: 0;
+  background: var(--color-surface);
+  border-radius: 20px;
+  padding: 24px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.location {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--color-text-secondary);
+}
+
+.input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 56px;
+  padding: 0 20px;
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  font-size: 16px;
+  color: var(--color-text);
+}
+
+.inputIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--color-text);
+}
+
+.filters {
+  margin-top: 40px;
+}
+
+.title {
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.group {
+  margin: 0;
+  margin-top: 24px;
+  border: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.group .label {
+  margin: 0 0 8px;
+  padding: 0;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--color-text);
+}
+
+.radio {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  position: relative;
+}
+
+.radio:checked {
+  border-color: var(--color-text);
+}
+
+.radio:checked::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--color-text);
+}
+
+.search {
+  margin-top: 48px;
+  height: 56px;
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-radius: var(--radius-pill);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.clear {
+  margin-top: 16px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.clearIcon {
+  width: 24px;
+  height: 24px;
+}
