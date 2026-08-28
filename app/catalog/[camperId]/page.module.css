@@ -1,0 +1,22 @@
+.page {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 48px var(--container-padding-x) 64px;
+}
+
+.topRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.bottomRow {
+  margin-top: 88px;
+  display: flex;
+  align-items: flex-start;
+  gap: 48px;
+}
+
+.bookingWrap {
+  margin-top: 64px;
+}
