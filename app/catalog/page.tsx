@@ -1,18 +1,11 @@
-import CamperList from "@/components/CamperList/CamperList";
 import Header from "@/components/Header/Header";
-import Sidebar from "@/components/Sidebar/Sidebar";
-import styles from "./page.module.css";
+import CatalogView from "@/components/Catalog/CatalogView";
 
 export default function Catalog() {
   return (
     <div>
       <Header />
-      <div className={styles.page}>
-        <Sidebar />
-        <div className={styles.content}>
-          <CamperList />
-        </div>
-      </div>
+      <CatalogView />
     </div>
   );
 }

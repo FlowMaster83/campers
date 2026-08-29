@@ -1,4 +1,5 @@
 .sidebarWrapper {
+  display: flex;
   padding: 0 48px;
 }
 
@@ -42,6 +43,17 @@
 .inputIcon {
   width: 20px;
   height: 20px;
+  color: var(--color-text);
+}
+
+.locationInput {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  outline: none;
+  padding: 0;
+  font-size: 16px;
   color: var(--color-text);
 }
 

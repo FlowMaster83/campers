@@ -1,0 +1,66 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: 64px 48px;
+}
+
+.illustration {
+  width: 100%;
+  max-width: 488px;
+  height: auto;
+}
+
+.title {
+  margin-top: 32px;
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.subtitle {
+  margin-top: 16px;
+  max-width: 420px;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--color-text-secondary);
+}
+
+.actions {
+  margin-top: 32px;
+  display: flex;
+  gap: 16px;
+}
+
+.clearButton {
+  height: 56px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.clearIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.viewAllButton {
+  height: 56px;
+  padding: 0 24px;
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-radius: var(--radius-pill);
+  font-size: 16px;
+  font-weight: 600;
+}

@@ -1,20 +1,69 @@
+"use client";
+
+import { useState, type FormEvent } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { IoMapOutline, IoCloseOutline } from "react-icons/io5";
+import { getCampersFilters } from "@/lib/api/campersApi";
+import { campersKeys } from "@/lib/api/queryKeys";
+import { humanizeLabel } from "@/lib/format";
+import type { CamperEngine, CamperForm, CamperTransmission, CampersFilterParams } from "@/types/camper";
 import styles from "./Sidebar.module.css";
 
-const CAMPER_FORM = ["Alcove", "Panel Van", "Integrated", "Semi Integrated"];
-const ENGINE = ["Diesel", "Petrol", "Hybrid", "Electric"];
-const TRANSMISSION = ["Automatic", "Manual"];
+const FALLBACK_FORMS: CamperForm[] = ["alcove", "panel_van", "integrated", "semi_integrated"];
+const FALLBACK_ENGINES: CamperEngine[] = ["diesel", "petrol", "hybrid", "electric"];
+const FALLBACK_TRANSMISSIONS: CamperTransmission[] = ["automatic", "manual"];
 
-export default function Sidebar() {
+type SidebarProps = {
+  filters: CampersFilterParams;
+  onApply: (filters: CampersFilterParams) => void;
+};
+
+export default function Sidebar({ filters, onApply }: SidebarProps) {
+  const { data: filterOptions } = useQuery({
+    queryKey: campersKeys.filters(),
+    queryFn: getCampersFilters,
+    staleTime: Infinity,
+  });
+
+  const [draft, setDraft] = useState<CampersFilterParams>(filters);
+  const [prevFilters, setPrevFilters] = useState(filters);
+
+  if (filters !== prevFilters) {
+    setPrevFilters(filters);
+    setDraft(filters);
+  }
+
+  const forms = filterOptions?.forms ?? FALLBACK_FORMS;
+  const engines = filterOptions?.engines ?? FALLBACK_ENGINES;
+  const transmissions = filterOptions?.transmissions ?? FALLBACK_TRANSMISSIONS;
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onApply(draft);
+  };
+
+  const handleClear = () => {
+    setDraft({});
+    onApply({});
+  };
+
   return (
     <div className={styles.sidebarWrapper}>
       <aside className={styles.sidebar}>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.location}>
             <span className={styles.label}>Location</span>
             <div className={styles.input}>
               <IoMapOutline className={styles.inputIcon} />
-              <span>Kyiv</span>
+              <input
+                type="text"
+                className={styles.locationInput}
+                placeholder="Enter location"
+                value={draft.location ?? ""}
+                onChange={(event) =>
+                  setDraft((current) => ({ ...current, location: event.target.value }))
+                }
+              />
             </div>
           </div>
 
@@ -24,15 +73,16 @@ export default function Sidebar() {
             {/* Camper form */}
             <fieldset className={styles.group}>
               <legend className={styles.label}>Camper form</legend>
-              {CAMPER_FORM.map((option) => (
+              {forms.map((option) => (
                 <label key={option} className={styles.option}>
                   <input
                     type="radio"
                     name="camperForm"
                     className={styles.radio}
-                    defaultChecked={option === "Panel Van"}
+                    checked={draft.form === option}
+                    onChange={() => setDraft((current) => ({ ...current, form: option }))}
                   />
-                  {option}
+                  {humanizeLabel(option)}
                 </label>
               ))}
             </fieldset>
@@ -40,15 +90,16 @@ export default function Sidebar() {
             {/* Engine */}
             <fieldset className={styles.group}>
               <legend className={styles.label}>Engine</legend>
-              {ENGINE.map((option) => (
+              {engines.map((option) => (
                 <label key={option} className={styles.option}>
                   <input
                     type="radio"
                     name="engine"
                     className={styles.radio}
-                    defaultChecked={option === "Petrol"}
+                    checked={draft.engine === option}
+                    onChange={() => setDraft((current) => ({ ...current, engine: option }))}
                   />
-                  {option}
+                  {humanizeLabel(option)}
                 </label>
               ))}
             </fieldset>
@@ -56,15 +107,18 @@ export default function Sidebar() {
             {/* Transmission */}
             <fieldset className={styles.group}>
               <legend className={styles.label}>Transmission</legend>
-              {TRANSMISSION.map((option) => (
+              {transmissions.map((option) => (
                 <label key={option} className={styles.option}>
                   <input
                     type="radio"
                     name="transmission"
                     className={styles.radio}
-                    defaultChecked={option === "Automatic"}
+                    checked={draft.transmission === option}
+                    onChange={() =>
+                      setDraft((current) => ({ ...current, transmission: option }))
+                    }
                   />
-                  {option}
+                  {humanizeLabel(option)}
                 </label>
               ))}
             </fieldset>
@@ -73,7 +127,7 @@ export default function Sidebar() {
           <button type="submit" className={styles.search}>
             Search
           </button>
-          <button type="reset" className={styles.clear}>
+          <button type="button" className={styles.clear} onClick={handleClear}>
             <IoCloseOutline className={styles.clearIcon} />
             Clear filters
           </button>
