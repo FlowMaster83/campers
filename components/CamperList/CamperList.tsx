@@ -1,68 +1,47 @@
 "use client";
 
-import { useState } from "react";
-import CamperCard, { type Camper } from "@/components/CamperCard/CamperCard";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import CamperCard from "@/components/CamperCard/CamperCard";
 import Loader from "../Loader/Loader";
+import { getCampers } from "@/lib/api/campersApi";
+import { campersKeys } from "@/lib/api/queryKeys";
 import styles from "./CamperList.module.css";
 
-const MOCK_CAMPERS: Camper[] = [
-  {
-    id: "1",
-    name: "Mavericks",
-    price: 8000,
-    rating: 4.4,
-    reviewsCount: 2,
-    location: "Kyiv, Ukraine",
-    description:
-      "Embrace simplicity and freedom with the Mavericks panel truck...",
-    fuel: "Petrol",
-    transmission: "Automatic",
-    form: "Alcove",
-  },
-  {
-    id: "2",
-    name: "Kuga Camper",
-    price: 8000,
-    rating: 4.2,
-    reviewsCount: 10,
-    location: "Kyiv, Ukraine",
-    description:
-      "The pictures shown here are example vehicles of the respective...",
-    fuel: "Petrol",
-    transmission: "Automatic",
-    form: "Alcove",
-  },
-];
+const PER_PAGE = 4;
 
 export default function CamperList() {
-  // тимчасово для перевірки лоадера
-  const [isLoading, setIsLoading] = useState(false);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
+    useInfiniteQuery({
+      queryKey: campersKeys.list({}),
+      queryFn: ({ pageParam }) => getCampers({ page: pageParam, perPage: PER_PAGE }),
+      initialPageParam: 1,
+      getNextPageParam: (lastPage) =>
+        lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined,
+    });
 
-  const handleLoadMore = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 5000);
-  };
-  // тимчасово для перевірки лоадера
+  const campers = data?.pages.flatMap((page) => page.campers) ?? [];
 
   return (
     <>
       <ul className={styles.list}>
-        {MOCK_CAMPERS.map((camper) => (
+        {campers.map((camper) => (
           <CamperCard key={camper.id} camper={camper} />
         ))}
       </ul>
-      <div className={styles.loadMoreWrapper}>
-        <button
-          type="button"
-          className={styles.loadMore}
-          onClick={handleLoadMore}
-        >
-          Load more
-        </button>
-      </div>
-      <Loader visible={isLoading} />
+
+      {hasNextPage && (
+        <div className={styles.loadMoreWrapper}>
+          <button
+            type="button"
+            className={styles.loadMore}
+            onClick={() => fetchNextPage()}
+          >
+            Load more
+          </button>
+        </div>
+      )}
+
+      <Loader visible={isLoading || isFetchingNextPage} />
     </>
   );
 }

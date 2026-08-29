@@ -2,28 +2,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { IoStar, IoMapOutline, IoGitNetworkOutline, IoCarOutline } from "react-icons/io5";
 import { BsFuelPump } from "react-icons/bs";
-import placeholderImage from "@/public/hero.png";
+import { humanizeLabel, formatLocation } from "@/lib/format";
+import type { CamperListItem } from "@/types/camper";
 import styles from "./CamperCard.module.css";
 
-export type Camper = {
-  id: string;
-  name: string;
-  price: number;
-  rating: number;
-  reviewsCount: number;
-  location: string;
-  description: string;
-  fuel: string;
-  transmission: string;
-  form: string;
-};
-
-export default function CamperCard({ camper }: { camper: Camper }) {
+export default function CamperCard({ camper }: { camper: CamperListItem }) {
   return (
     <li className={styles.card}>
       <div className={styles.imageWrapper}>
         <Image
-          src={placeholderImage}
+          src={camper.coverImage}
           alt={camper.name}
           fill
           sizes="219px"
@@ -40,11 +28,11 @@ export default function CamperCard({ camper }: { camper: Camper }) {
         <div className={styles.metaRow}>
           <span className={styles.meta}>
             <IoStar className={styles.starIcon} />
-            {camper.rating}({camper.reviewsCount} Reviews)
+            {camper.rating}({camper.totalReviews} Reviews)
           </span>
           <span className={styles.meta}>
             <IoMapOutline className={styles.metaIcon} />
-            {camper.location}
+            {formatLocation(camper.location)}
           </span>
         </div>
 
@@ -53,15 +41,15 @@ export default function CamperCard({ camper }: { camper: Camper }) {
         <ul className={styles.badges}>
           <li className={styles.badge}>
             <BsFuelPump className={styles.badgeIcon} />
-            {camper.fuel}
+            {humanizeLabel(camper.engine)}
           </li>
           <li className={styles.badge}>
             <IoGitNetworkOutline className={styles.badgeIcon} />
-            {camper.transmission}
+            {humanizeLabel(camper.transmission)}
           </li>
           <li className={styles.badge}>
             <IoCarOutline className={styles.badgeIcon} />
-            {camper.form}
+            {humanizeLabel(camper.form)}
           </li>
         </ul>
 
