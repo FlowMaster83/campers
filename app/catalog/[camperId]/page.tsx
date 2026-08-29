@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header/Header";
 import CamperGallery from "@/components/CamperGallery/CamperGallery";
@@ -7,6 +8,33 @@ import BookingForm from "@/components/BookingForm/BookingForm";
 import { getCamperById, getCamperReviews } from "@/lib/api/campersApi";
 import { ApiError } from "@/lib/api/httpClient";
 import styles from "./page.module.css";
+
+export async function generateMetadata({
+  params,
+}: PageProps<"/catalog/[camperId]">): Promise<Metadata> {
+  const { camperId } = await params;
+
+  try {
+    const camper = await getCamperById(camperId);
+
+    return {
+      title: camper.name,
+      description: camper.description,
+      openGraph: {
+        title: `${camper.name} — TravelTrucks`,
+        description: camper.description,
+        images: camper.gallery[0]?.original
+          ? [camper.gallery[0].original]
+          : ["/hero.png"],
+        type: "website",
+      },
+    };
+  } catch {
+    return {
+      title: "Camper Details",
+    };
+  }
+}
 
 async function fetchCamperDetails(camperId: string) {
   try {

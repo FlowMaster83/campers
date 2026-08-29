@@ -12,10 +12,21 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "TravelTrucks — Camper Rental",
+  metadataBase: new URL("https://campers-sage-six.vercel.app"),
+  title: {
+    template: "%s — TravelTrucks",
+    default: "TravelTrucks — Camper Rental",
+  },
   description: "Rent the perfect camper for your next trip with TravelTrucks.",
   icons: {
     icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+  },
+  openGraph: {
+    title: "TravelTrucks — Camper Rental",
+    description:
+      "Rent the perfect camper for your next trip with TravelTrucks.",
+    images: ["/hero.png"],
+    type: "website",
   },
 };
 
