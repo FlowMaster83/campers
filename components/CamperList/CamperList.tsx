@@ -5,6 +5,7 @@ import CamperCard from "@/components/CamperCard/CamperCard";
 import EmptyState from "@/components/EmptyState/EmptyState";
 import Loader from "../Loader/Loader";
 import { getCampers } from "@/lib/api/campersApi";
+import { ApiError } from "@/lib/api/httpClient";
 import { campersKeys } from "@/lib/api/queryKeys";
 import type { CampersFilterParams } from "@/types/camper";
 import styles from "./CamperList.module.css";
@@ -17,17 +18,40 @@ type CamperListProps = {
 };
 
 export default function CamperList({ filters, onClearFilters }: CamperListProps) {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useInfiniteQuery({
-      queryKey: campersKeys.list(filters),
-      queryFn: ({ pageParam }) =>
-        getCampers({ ...filters, page: pageParam, perPage: PER_PAGE }),
-      initialPageParam: 1,
-      getNextPageParam: (lastPage) =>
-        lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined,
-    });
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useInfiniteQuery({
+    queryKey: campersKeys.list(filters),
+    queryFn: ({ pageParam }) =>
+      getCampers({ ...filters, page: pageParam, perPage: PER_PAGE }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined,
+  });
 
   const campers = data?.pages.flatMap((page) => page.campers) ?? [];
+
+  if (isError) {
+    return (
+      <div className={styles.errorWrapper}>
+        <p className={styles.errorText}>
+          {error instanceof ApiError
+            ? error.message
+            : "Something went wrong. Please try again."}
+        </p>
+        <button type="button" className={styles.retry} onClick={() => refetch()}>
+          Try again
+        </button>
+      </div>
+    );
+  }
 
   if (!isLoading && campers.length === 0) {
     return <EmptyState onReset={onClearFilters} />;

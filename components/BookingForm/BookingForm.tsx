@@ -2,7 +2,11 @@
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import { IoAlertCircleOutline } from "react-icons/io5";
+import { ClipLoader } from "react-spinners";
+import { createBookingRequest } from "@/lib/api/campersApi";
 import styles from "./BookingForm.module.css";
 
 const validationSchema = Yup.object({
@@ -18,11 +22,23 @@ const validationSchema = Yup.object({
     .email("Please enter your email."),
 });
 
-export default function BookingForm() {
+export default function BookingForm({ camperId }: { camperId: string }) {
+  const mutation = useMutation({
+    mutationFn: (values: { name: string; email: string }) =>
+      createBookingRequest(camperId, values),
+  });
+
   const formik = useFormik({
     initialValues: { name: "", email: "" },
     validationSchema,
-    onSubmit: () => {},
+    onSubmit: (values, helpers) =>
+      mutation
+        .mutateAsync(values)
+        .then(() => {
+          helpers.resetForm();
+          toast.success("Booking request sent! We'll be in touch soon.");
+        })
+        .catch(() => {}),
   });
 
   const nameError = formik.touched.name && formik.errors.name;
@@ -68,8 +84,12 @@ export default function BookingForm() {
           {emailError && <p className={styles.errorText}>{formik.errors.email}</p>}
         </div>
 
-        <button type="submit" className={styles.submit}>
-          Send
+        {mutation.isError && (
+          <p className={styles.errorText}>Something went wrong. Please try again.</p>
+        )}
+
+        <button type="submit" className={styles.submit} disabled={formik.isSubmitting}>
+          {formik.isSubmitting ? <ClipLoader size={20} color="#ffffff" /> : "Send"}
         </button>
       </form>
     </div>

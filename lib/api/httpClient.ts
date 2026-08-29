@@ -25,6 +25,8 @@ export function buildQueryString(
   return query ? `?${query}` : "";
 }
 
+const REQUEST_TIMEOUT_MS = 15000;
+
 export async function apiFetch<T>(
   path: string,
   options?: RequestInit,
@@ -33,13 +35,30 @@ export async function apiFetch<T>(
     throw new ApiError("NEXT_PUBLIC_API_URL is not configured", 500);
   }
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE_URL}${path}`, {
+      ...options,
+      headers: {
+        "Content-Type": "application/json",
+        ...options?.headers,
+      },
+      signal: controller.signal,
+    });
+  } catch (error) {
+    if (error instanceof DOMException && error.name === "AbortError") {
+      throw new ApiError(
+        "Request timed out. Please check your connection and try again.",
+        0,
+      );
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
+  }
 
   if (!response.ok) {
     let message = response.statusText;

@@ -1,28 +1,19 @@
 import { IoStar, IoMapOutline } from "react-icons/io5";
-import type { StaticImageData } from "next/image";
+import { formatLocation, getCamperBadges, humanizeLabel } from "@/lib/format";
+import type { CamperDetails } from "@/types/camper";
 import styles from "./CamperOverview.module.css";
 
-export type CamperReview = {
-  name: string;
-  rating: number;
-  comment: string;
-};
-
-export type CamperDetails = {
-  id: string;
-  name: string;
-  price: number;
-  rating: number;
-  reviewsCount: number;
-  location: string;
-  description: string;
-  images: StaticImageData[];
-  badges: string[];
-  specs: { label: string; value: string }[];
-  reviews: CamperReview[];
-};
-
 export default function CamperOverview({ camper }: { camper: CamperDetails }) {
+  const badges = getCamperBadges(camper);
+  const specs = [
+    { label: "Form", value: humanizeLabel(camper.form) },
+    { label: "Length", value: camper.length },
+    { label: "Width", value: camper.width },
+    { label: "Height", value: camper.height },
+    { label: "Tank", value: camper.tank },
+    { label: "Consumption", value: camper.consumption },
+  ];
+
   return (
     <div className={styles.overview}>
       <div className={styles.summaryCard}>
@@ -31,11 +22,11 @@ export default function CamperOverview({ camper }: { camper: CamperDetails }) {
         <div className={styles.metaRow}>
           <span className={styles.meta}>
             <IoStar className={styles.starIcon} />
-            {camper.rating}({camper.reviewsCount} Reviews)
+            {camper.rating}({camper.totalReviews} Reviews)
           </span>
           <span className={styles.meta}>
             <IoMapOutline className={styles.metaIcon} />
-            {camper.location}
+            {formatLocation(camper.location)}
           </span>
         </div>
 
@@ -48,15 +39,15 @@ export default function CamperOverview({ camper }: { camper: CamperDetails }) {
         <h2 className={styles.detailsTitle}>Vehicle details</h2>
 
         <ul className={styles.badges}>
-          {camper.badges.map((badge) => (
-            <li key={badge} className={styles.badge}>
+          {badges.map((badge, index) => (
+            <li key={`${badge}-${index}`} className={styles.badge}>
               {badge}
             </li>
           ))}
         </ul>
 
         <dl className={styles.specs}>
-          {camper.specs.map((spec) => (
+          {specs.map((spec) => (
             <div key={spec.label} className={styles.specRow}>
               <dt className={styles.specLabel}>{spec.label}</dt>
               <dd className={styles.specValue}>{spec.value}</dd>

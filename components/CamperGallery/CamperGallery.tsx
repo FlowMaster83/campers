@@ -2,54 +2,72 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import type { StaticImageData } from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Thumbs } from "swiper/modules";
+import type { Swiper as SwiperInstance } from "swiper/types";
+import "swiper/css";
+import "swiper/css/thumbs";
+import type { CamperGalleryImage } from "@/types/camper";
 import styles from "./CamperGallery.module.css";
 
 export default function CamperGallery({
   images,
   alt,
 }: {
-  images: StaticImageData[];
+  images: CamperGalleryImage[];
   alt: string;
 }) {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [thumbsSwiper, setThumbsSwiper] = useState<SwiperInstance | null>(null);
+
+  if (images.length === 0) {
+    return null;
+  }
+
+  const sortedImages = [...images].sort((a, b) => a.order - b.order);
 
   return (
     <div className={styles.gallery}>
-      <div className={styles.mainImageWrapper}>
-        <Image
-          src={images[activeIndex]}
-          alt={alt}
-          fill
-          sizes="638px"
-          className={styles.mainImage}
-          priority
-        />
-      </div>
-
-      <ul className={styles.thumbnails}>
-        {images.map((image, index) => (
-          <li key={index} className={styles.thumbnailItem}>
-            <button
-              type="button"
-              onClick={() => setActiveIndex(index)}
-              className={
-                index === activeIndex
-                  ? `${styles.thumbnailButton} ${styles.thumbnailButtonActive}`
-                  : styles.thumbnailButton
-              }
-            >
+      <Swiper
+        modules={[Thumbs]}
+        thumbs={{ swiper: thumbsSwiper }}
+        className={styles.mainSwiper}
+      >
+        {sortedImages.map((image) => (
+          <SwiperSlide key={image.id}>
+            <div className={styles.mainImageWrapper}>
               <Image
-                src={image}
-                alt={`${alt} thumbnail ${index + 1}`}
+                src={image.original}
+                alt={alt}
                 fill
-                sizes="150px"
-                className={styles.thumbnailImage}
+                sizes="638px"
+                className={styles.mainImage}
+                priority
               />
-            </button>
-          </li>
+            </div>
+          </SwiperSlide>
         ))}
-      </ul>
+      </Swiper>
+
+      <Swiper
+        onSwiper={setThumbsSwiper}
+        modules={[Thumbs]}
+        watchSlidesProgress
+        slidesPerView={sortedImages.length}
+        spaceBetween={32}
+        className={styles.thumbsSwiper}
+      >
+        {sortedImages.map((image, index) => (
+          <SwiperSlide key={image.id} className={styles.thumbnailButton}>
+            <Image
+              src={image.thumb}
+              alt={`${alt} thumbnail ${index + 1}`}
+              fill
+              sizes="150px"
+              className={styles.thumbnailImage}
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 }

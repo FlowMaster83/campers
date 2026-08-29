@@ -1,5 +1,5 @@
 import { IoStar } from "react-icons/io5";
-import type { CamperReview } from "@/components/CamperOverview/CamperOverview";
+import type { CamperReview } from "@/types/camper";
 import styles from "./Reviews.module.css";
 
 export default function Reviews({ reviews }: { reviews: CamperReview[] }) {
@@ -9,17 +9,17 @@ export default function Reviews({ reviews }: { reviews: CamperReview[] }) {
 
       <ul className={styles.list}>
         {reviews.map((review) => (
-          <li key={review.name} className={styles.card}>
+          <li key={review.id} className={styles.card}>
             <div className={styles.header}>
-              <span className={styles.avatar}>{review.name.charAt(0)}</span>
+              <span className={styles.avatar}>{review.reviewer_name.charAt(0)}</span>
               <div>
-                <p className={styles.name}>{review.name}</p>
+                <p className={styles.name}>{review.reviewer_name}</p>
                 <div className={styles.stars}>
                   {Array.from({ length: 5 }).map((_, index) => (
                     <IoStar
                       key={index}
                       className={
-                        index < review.rating
+                        index < review.reviewer_rating
                           ? `${styles.star} ${styles.starFilled}`
                           : styles.star
                       }

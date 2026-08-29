@@ -102,9 +102,17 @@
 .submit {
   margin-top: 24px;
   height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: var(--color-primary);
   color: var(--color-white);
   border-radius: var(--radius-pill);
   font-size: 16px;
   font-weight: 600;
+}
+
+.submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
