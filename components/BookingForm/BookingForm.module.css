@@ -68,7 +68,11 @@
 }
 
 .input::placeholder {
-  color: var(--color-text-secondary);
+  color: var(--color-input-text);
+}
+
+.input:focus::placeholder {
+  color: var(--color-text);
 }
 
 .inputError {
@@ -97,6 +101,20 @@
   font-size: 14px;
   line-height: 20px;
   color: var(--color-danger);
+}
+
+.errorTextFlicker {
+  animation: flicker 0.25s ease-in-out 3;
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
 }
 
 .submit {

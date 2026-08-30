@@ -58,7 +58,7 @@ export default function Sidebar({ filters, onApply }: SidebarProps) {
               <input
                 type="text"
                 className={styles.locationInput}
-                placeholder="Enter location"
+                placeholder="City"
                 value={draft.location ?? ""}
                 onChange={(event) =>
                   setDraft((current) => ({ ...current, location: event.target.value }))

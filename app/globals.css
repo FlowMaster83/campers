@@ -7,9 +7,13 @@
   --color-text: #101828;
   --color-text-secondary: #475467;
   --color-primary: #829b91;
+  --color-secondary: #6d7b75;
   --color-star: #ffc531;
   --color-white: #ffffff;
+  --color-icon: #6c717b;
+  --color-input-text: #6c717b;
   --color-border: #d0d5dd;
+  --color-border-load-button: #dadde1;
   --color-radio: #475467;
   --color-danger: #e84041;
   --color-danger-border: #e75e5e;

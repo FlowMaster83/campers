@@ -43,6 +43,11 @@
 .inputIcon {
   width: 20px;
   height: 20px;
+  color: var(--color-icon);
+}
+
+.input:focus-within .inputIcon,
+.input:has(.locationInput:not(:placeholder-shown)) .inputIcon {
   color: var(--color-text);
 }
 
@@ -55,6 +60,10 @@
   padding: 0;
   font-size: 16px;
   color: var(--color-text);
+}
+
+.locationInput::placeholder {
+  color: var(--color-input-text);
 }
 
 .filters {
