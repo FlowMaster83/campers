@@ -16,6 +16,9 @@ const validationSchema = Yup.object({
     .required("Please enter your name.")
     .test("not-numeric", "Please enter your name.", (value) =>
       value ? Number.isNaN(Number(value)) : false,
+    )
+    .test("full-name", "Please enter your full name.", (value) =>
+      value ? value.trim().split(/\s+/).filter(Boolean).length >= 2 : true,
     ),
   email: Yup.string()
     .trim()
