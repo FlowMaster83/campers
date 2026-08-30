@@ -24,6 +24,9 @@ export default function CamperGallery({
   }
 
   const sortedImages = [...images].sort((a, b) => a.order - b.order);
+  const thumbWidth = Math.round(
+    (638 - 32 * (sortedImages.length - 1)) / sortedImages.length,
+  );
 
   return (
     <div className={styles.gallery}>
@@ -62,7 +65,7 @@ export default function CamperGallery({
               src={image.thumb}
               alt={`${alt} thumbnail ${index + 1}`}
               fill
-              sizes="150px"
+              sizes={`${thumbWidth}px`}
               className={styles.thumbnailImage}
             />
           </SwiperSlide>

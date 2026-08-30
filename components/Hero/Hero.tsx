@@ -20,7 +20,7 @@ export default function Hero() {
         <p className={styles.subtitle}>
           You can find everything you want in our catalog
         </p>
-        <Link href="/catalog" className={styles.cta}>
+        <Link href="/catalog" prefetch={false} className={styles.cta}>
           View Now
         </Link>
       </div>
