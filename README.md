@@ -10,8 +10,8 @@
 
 | Метрика | Оцінка |
 | --- | --- |
-| Performance | 90 |
-| Accessibility | 95 |
+| Performance | 99 |
+| Accessibility | 96 |
 | Best Practices | 100 |
 | SEO | 100 |
 
