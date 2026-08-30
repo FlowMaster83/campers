@@ -126,7 +126,3 @@
   font-size: 16px;
   font-weight: 600;
 }
-
-.button:hover {
-  background: var(--color-secondary);
-}
