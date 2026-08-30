@@ -33,7 +33,7 @@
 .navLink {
   font-size: 16px;
   font-weight: 500;
-  color: var(--color-text);
+  color: var(--color-primary);
 }
 
 .navLinkMuted {

@@ -1,7 +1,7 @@
 .page {
   max-width: var(--container-width);
   margin: 0 auto;
-  padding: 48px var(--container-padding-x) 64px;
+  padding: 64px var(--container-padding-x) 64px;
 }
 
 .topRow {

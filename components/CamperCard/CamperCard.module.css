@@ -31,6 +31,7 @@
   align-items: baseline;
   justify-content: space-between;
   gap: 16px;
+  max-width: 430px;
 }
 
 .title {
@@ -77,6 +78,7 @@
 
 .description {
   margin-top: 24px;
+  max-width: 430px;
   font-size: 16px;
   line-height: 24px;
   color: var(--color-text-secondary);

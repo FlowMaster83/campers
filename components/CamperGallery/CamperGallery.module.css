@@ -32,9 +32,13 @@
   cursor: pointer;
 }
 
-.thumbnailButton:global(.swiper-slide-thumb-active) {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+.thumbnailButton:global(.swiper-slide-thumb-active)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  pointer-events: none;
 }
 
 .thumbnailImage {

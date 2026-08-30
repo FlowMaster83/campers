@@ -10,14 +10,15 @@
   --color-star: #ffc531;
   --color-white: #ffffff;
   --color-border: #d0d5dd;
+  --color-radio: #475467;
   --color-danger: #e84041;
   --color-danger-border: #e75e5e;
   --color-danger-bg: #ffdfdf;
 
   --radius-sm: 12px;
   --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-pill: 999px;
+  --radius-lg: 16px;
+  --radius-pill: 200px;
 
   --container-width: 1440px;
   --container-padding-x: 64px;
