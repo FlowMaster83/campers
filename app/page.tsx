@@ -3,9 +3,11 @@ import Hero from "@/components/Hero/Hero";
 
 export default function Home() {
   return (
-    <div>
+    <>
       <Header />
-      <Hero />
-    </div>
+      <main>
+        <Hero />
+      </main>
+    </>
   );
 }

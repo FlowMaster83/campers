@@ -19,14 +19,14 @@ export default function Header() {
             href="/"
             prefetch={false}
             className={isCatalog ? styles.navLinkMuted : styles.navLink}
-            >
+          >
             Home
           </Link>
           <Link
             href="/catalog"
             prefetch={false}
             className={isCatalog ? styles.navLink : styles.navLinkMuted}
-            >
+          >
             Catalog
           </Link>
         </nav>

@@ -57,9 +57,9 @@ export default async function CamperDetailsPage({
   const [camper, reviews] = await fetchCamperDetails(camperId);
 
   return (
-    <div>
+    <>
       <Header />
-      <div className={styles.page}>
+      <main className={styles.page}>
         <div className={styles.topRow}>
           <CamperGallery images={camper.gallery} alt={camper.name} />
           <CamperOverview camper={camper} />
@@ -71,7 +71,7 @@ export default async function CamperDetailsPage({
             <BookingForm camperId={camper.id} />
           </div>
         </div>
-      </div>
-    </div>
+      </main>
+    </>
   );
 }

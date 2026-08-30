@@ -80,9 +80,12 @@ export default function BookingForm({ camperId }: { camperId: string }) {
               value={formik.values.name}
               onChange={formik.handleChange}
               onFocus={() => setFocusedField("name")}
-              onBlur={() =>
-                setFocusedField((current) => (current === "name" ? null : current))
-              }
+              onBlur={() => {
+                setFocusedField((current) => (current === "name" ? null : current));
+                if (formik.values.name.trim()) {
+                  formik.setFieldTouched("name", true);
+                }
+              }}
               className={nameError ? `${styles.input} ${styles.inputError}` : styles.input}
             />
             {nameError && <IoAlertCircleOutline className={styles.errorIcon} />}
@@ -107,9 +110,12 @@ export default function BookingForm({ camperId }: { camperId: string }) {
               value={formik.values.email}
               onChange={formik.handleChange}
               onFocus={() => setFocusedField("email")}
-              onBlur={() =>
-                setFocusedField((current) => (current === "email" ? null : current))
-              }
+              onBlur={() => {
+                setFocusedField((current) => (current === "email" ? null : current));
+                if (formik.values.email.trim()) {
+                  formik.setFieldTouched("email", true);
+                }
+              }}
               className={emailError ? `${styles.input} ${styles.inputError}` : styles.input}
             />
             {emailError && <IoAlertCircleOutline className={styles.errorIcon} />}

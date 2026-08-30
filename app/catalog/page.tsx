@@ -17,9 +17,12 @@ export const metadata: Metadata = {
 
 export default function Catalog() {
   return (
-    <div>
+    <>
       <Header />
-      <CatalogView />
-    </div>
+      <main>
+        <h1 className="srOnly">Catalog</h1>
+        <CatalogView />
+      </main>
+    </>
   );
 }
