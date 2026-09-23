@@ -17,8 +17,8 @@ export default function Loader({ visible }: { visible: boolean }) {
               position: "absolute",
               inset: 0,
               borderWidth: 6,
-              borderTopColor: "#6d7b75",
-              borderRightColor: "#6d7b75",
+              borderTopColor: "var(--color-primary)",
+              borderRightColor: "var(--color-primary)",
               borderBottomColor: "transparent",
               borderLeftColor: "transparent",
             }}

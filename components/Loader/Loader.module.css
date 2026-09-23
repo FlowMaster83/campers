@@ -15,7 +15,7 @@
   padding: 48px 96px;
   background: var(--color-white);
   border-radius: var(--radius-lg);
-  box-shadow: 0 4px 24px rgba(16, 24, 40, 0.08);
+  box-shadow: 0 4px 24px rgba(29, 43, 37, 0.08);
 }
 
 .spinner {

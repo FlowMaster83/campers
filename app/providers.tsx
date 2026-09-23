@@ -33,7 +33,7 @@ export default function Providers({ children }: { children: ReactNode }) {
             borderRadius: "var(--radius-lg)",
             background: "var(--color-white)",
             color: "var(--color-text)",
-            boxShadow: "0 4px 24px rgba(16, 24, 40, 0.16)",
+            boxShadow: "0 4px 24px rgba(29, 43, 37, 0.16)",
             fontSize: "16px",
           },
           success: {
